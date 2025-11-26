@@ -1,0 +1,511 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="zh-Hant">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>\uc0\u26085 \u26412 \u29983 \u26085 \u20043 \u26053 </title>\
+    <!-- PWA Manifest -->\
+    <link rel="manifest" href="manifest.json">\
+    <meta name="theme-color" content="#ffffff">\
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2060/2060250.png">\
+    \
+    <!-- Tailwind CSS -->\
+    <script src="https://cdn.tailwindcss.com"></script>\
+    <style>\
+        /* Fonts */\
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');\
+\
+        body \{\
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;\
+            background-color: #F7F7F7;\
+            -webkit-tap-highlight-color: transparent;\
+        \}\
+\
+        /* Hide Scrollbar */\
+        .hide-scrollbar::-webkit-scrollbar \{ display: none; \}\
+        .hide-scrollbar \{ -ms-overflow-style: none; scrollbar-width: none; \}\
+        \
+        /* App Container */\
+        .app-container \{\
+            border-radius: 1rem;\
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);\
+            overflow: hidden;\
+            position: relative; \
+            min-height: 100vh;\
+            background-color: #ffffff;\
+        \}\
+\
+        /* Home Screen Animation */\
+        #home-screen \{\
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;\
+            transform: translateY(0);\
+            opacity: 1;\
+        \}\
+\
+        /* Text Shadow for Hero */\
+        .text-shadow-hero \{\
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);\
+        \}\
+\
+        /* Tag Styles */\
+        .guide-tag \{\
+            display: inline-block;\
+            padding: 2px 8px;\
+            margin-right: 4px;\
+            margin-bottom: 4px;\
+            border-radius: 6px;\
+            font-size: 0.75rem;\
+            font-weight: 700;\
+            letter-spacing: 0.025em;\
+        \}\
+        .tag-food \{ background-color: #FFF7ED; color: #C2410C; border: 1px solid #FFEDD5; \}\
+        .tag-important \{ background-color: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; \}\
+        .tag-funfact \{ background-color: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; \}\
+\
+        /* Weather Card */\
+        .ios-weather-card \{\
+            background: linear-gradient(135deg, #374151, #111827);\
+            color: white;\
+            padding: 20px;\
+            border-radius: 16px;\
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\
+        \}\
+\
+        /* Accordion Transition */\
+        #booking-details \{\
+            transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s;\
+            overflow: hidden;\
+            opacity: 1;\
+            max-height: 1000px; /* Arbitrary large height */\
+        \}\
+        .collapsed-content \{\
+            max-height: 0 !important;\
+            opacity: 0;\
+            padding-top: 0 !important;\
+            padding-bottom: 0 !important;\
+            margin-top: 0 !important;\
+            margin-bottom: 0 !important;\
+        \}\
+\
+        /* Sticky Nav Adjustment */\
+        #day-tabs \{\
+            transition: top 0.3s ease;\
+        \}\
+    </style>\
+</head>\
+<body class="flex flex-col items-center min-h-screen md:py-8 bg-gray-100">\
+\
+    <!-- Mobile-First Container -->\
+    <div class="w-full max-w-md app-container md:rounded-[2rem]">\
+        \
+        <!-- ============================================= -->\
+        <!-- HOME SCREEN OVERLAY -->\
+        <!-- ============================================= -->\
+        <div id="home-screen" \
+             onclick="enterApp()" \
+             class="fixed md:absolute inset-0 z-50 bg-cover bg-center flex flex-col justify-end p-8 cursor-pointer"\
+             style="background-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2000&auto=format&fit=crop');">\
+            \
+            <div class="mb-12 text-center text-white">\
+                <div class="inline-block px-3 py-1 mb-4 border border-white/30 rounded-full text-xs font-medium tracking-widest uppercase backdrop-blur-sm">\
+                    Tokyo 2025\
+                </div>\
+                <h1 class="text-5xl font-extrabold mb-2 text-shadow-hero leading-tight">\
+                    12\uc0\u26376 <br>\u29983 \u26085 \u20043 \u26053 \
+                </h1>\
+                <p class="text-lg font-light tracking-widest opacity-90 text-shadow-hero">\
+                    Happy Birthday Trip\
+                </p>\
+            </div>\
+            \
+            <div class="text-center pb-8 animate-pulse text-white/80">\
+                <p class="text-sm font-medium tracking-wider uppercase">\
+                    Tap to Start\
+                </p>\
+            </div>\
+        </div>\
+        \
+        <!-- ============================================= -->\
+        <!-- MAIN APP INTERFACE -->\
+        <!-- ============================================= -->\
+\
+        <!-- Sticky Header -->\
+        <header id="main-header" class="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-30 transition-all duration-300">\
+            <div class="px-5 py-4">\
+                <div class="flex justify-between items-end">\
+                    <div>\
+                        <h1 class="text-2xl font-black text-gray-900 tracking-tight">\uc0\u55356 \u56815 \u55356 \u56821  \u26481 \u20140 \u34892 </h1>\
+                        <p class="text-xs text-gray-500 font-medium mt-0.5">2025.12.02 - 12.05</p>\
+                    </div>\
+                    <div id="budget-summary" class="text-right">\
+                        <!-- Budget injected here -->\
+                    </div>\
+                </div>\
+            </div>\
+\
+            <!-- Toggle Bar -->\
+            <button onclick="toggleBookingDetails()" class="w-full px-5 py-3 bg-gray-50 flex justify-between items-center border-t border-b border-gray-100 active:bg-gray-100 transition-colors group">\
+                <span class="font-semibold text-gray-600 text-xs tracking-wide uppercase flex items-center">\
+                    <span class="mr-2 text-base">\uc0\u55356 \u57259 </span> \u38928 \u35330 \u35443 \u24773  & \u37325 \u35201 \u36039 \u35338 \
+                </span>\
+                <span id="toggle-icon" class="text-gray-400 transform transition-transform duration-300 group-hover:text-gray-600">\uc0\u9660 </span>\
+            </button>\
+        </header>\
+        \
+        <!-- Collapsible Info -->\
+        <div id="booking-details" class="px-5 py-4 bg-white space-y-3 shadow-inner bg-gray-50/50">\
+            <!-- Booking details injected here -->\
+        </div>\
+\
+        <!-- Sticky Day Tabs -->\
+        <nav id="day-tabs" class="flex justify-around bg-white shadow-sm sticky z-20 border-b border-gray-100">\
+            <!-- Tabs injected here -->\
+        </nav>\
+\
+        <!-- Main Content Scroll Area -->\
+        <main id="itinerary-content" class="p-5 pb-20 space-y-6 min-h-[60vh] bg-white">\
+            <!-- Timeline injected here -->\
+        </main>\
+        \
+        <!-- Footer -->\
+        <footer class="py-6 text-center border-t border-gray-100 bg-gray-50">\
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest">Designed with \uc0\u10084 \u65039  for You</p>\
+        </footer>\
+    </div>\
+\
+    <!-- ============================================= -->\
+    <!-- JAVASCRIPT LOGIC -->\
+    <!-- ============================================= -->\
+    <script>\
+        // PWA Service Worker Registration\
+        if ('serviceWorker' in navigator) \{\
+            window.addEventListener('load', () => \{\
+                navigator.serviceWorker.register('./sw.js')\
+                    .then(reg => console.log('Service Worker registered', reg))\
+                    .catch(err => console.log('Service Worker registration failed', err));\
+            \});\
+        \}\
+\
+        // 1. DATA CONFIGURATION (Pre-baked)\
+        const BOOKING_INFO = \{\
+            orderId: "1359041237819550",\
+            pnr: "E58BJS",\
+            passengers: ["CHIU HIU WING", "LAM CHIU TING"],\
+            baggage: \{\
+                checked: "\uc0\u27599 \u20154 1\u20214  (20 kg)",\
+                carryOn: "1\uc0\u20214 \u38568 \u36523  (40x25x20) + \u28961 \u38989 \u22806 \u25163 \u25552 ",\
+                checkInTime: "\uc0\u36215 \u39131 \u21069  3 \u23567 \u26178 "\
+            \},\
+            hotel: \{\
+                name: "Super Hotel Premier Akihabara",\
+                address: "2 Chome-25-8 Kanda Sudacho, Chiyoda City, Tokyo 101-0041",\
+                checkInLimit: "23:30 (\uc0\u22196 \u26684 \u22519 \u34892 )",\
+                payment: "HK$46.00 + \uc0\u20303 \u23487 \u31237  (\u21069 \u21488 \u25903 \u20184 )"\
+            \}\
+        \};\
+\
+        const itineraryData = [\
+            \{\
+                date: "12/2 (\uc0\u20108 )",\
+                shortDate: "12/02",\
+                city: "\uc0\u26481 \u20140  (\u31179 \u33865 \u21407 /\u28154 \u33609 )",\
+                theme: "\uc0\u25269 \u36948 \u33287 \u25991 \u21270 \u27927 \u31150 ",\
+                weather: \{ temp: "13\'b0C", condition: "sunny", summary: "\uc0\u26228 \u26391 \u20094 \u29157 \u65292 \u36969 \u21512 \u36208 \u36335 " \},\
+                guide: "<span class='guide-tag tag-funfact'>\uc0\u55357 \u56481  \u28154 \u33609 \u23546 </span> \u35352 \u24471 \u22312 \u38647 \u38272 \u27714 \u31844 \u65292 \u22914 \u26524 \u26159 \u12300 \u20982 \u12301 \u31844 \u65292 \u35531 \u25226 \u23427 \u32129 \u22312 \u26550 \u23376 \u19978 \u21270 \u35299 \u21380 \u36939 \u12290 <br><span class='guide-tag tag-food'>\u55357 \u56481  \u20210 \u35211 \u19990 </span> \u24517 \u21507 \u29694 \u28856 \u30340 \u12300 \u21513 \u20633 \u31984 \u23376 \u12301 \u21644 \u20154 \u24418 \u29138 \u65292 \u21083 \u20986 \u29200 \u30340 \u26368 \u22909 \u21507 \u65281 <br><span class='guide-tag tag-funfact'>\u55357 \u56481  \u31179 \u33865 \u21407 </span> \u22914 \u26524 \u21435 \u25197 \u34507 \u26371 \u39208 \u65292 \u35352 \u24471 \u28310 \u20633 \u22823 \u37327 100\u26085 \u22291 \u30828 \u24163 \u65292 \u36889 \u35041 \u34987 \u31281 \u28858 \u25197 \u34507 \u32854 \u22320 \u12290 ",\
+                events: [\
+                    \{ time: "06:55", activity: "\uc0\u25269 \u36948 \u25104 \u30000  T2 (UO854)", icon: "\u55357 \u57068 ", category: 'transport', cost: 0, desc: "\u38936 \u21462 \u34892 \u26446 \u65292 \u20837 \u22659 \u23529 \u26597 ", address: "Narita Airport Terminal 2" \},\
+                    \{ time: "08:30", activity: "\uc0\u21069 \u24448 \u37202 \u24215 \u23492 \u25918 \u34892 \u26446 ", icon: "\u55358 \u56819 ", category: 'transport', cost: 2500, desc: "Skyliner \u33267 \u26085 \u26286 \u37324 \u36681  JR \u33267 \u31179 \u33865 \u21407 ", address: BOOKING_INFO.hotel.address \},\
+                    \{ time: "10:30", activity: "\uc0\u28154 \u33609 \u23546 \u65306 \u38647 \u38272 \u21443 \u25308 ", icon: "\u55356 \u57326 ", category: 'attraction', cost: 0, desc: "\u25645 \u20056 \u31569 \u27874 \u24555 \u32218 /\u22320 \u37941 \u21069 \u24448 ", address: "Senso-ji" \},\
+                    \{ time: "12:30", activity: "\uc0\u20210 \u35211 \u19990 \u36890 \u65306 \u21320 \u39184 \u33287 \u23567 \u21507 ", icon: "\u55356 \u57185 ", category: 'food', cost: 0, desc: "\u20154 \u24418 \u29138 \u12289 \u28856 \u32905 \u39173 ", address: "Nakamise-dori Street" \},\
+                    \{ time: "15:00", activity: "\uc0\u31179 \u33865 \u21407 \u65306 \u21205 \u28459 \u32854 \u22320 \u24033 \u31150 ", icon: "\u55356 \u57262 ", category: 'attraction', cost: 0, desc: "Radio\u26371 \u39208 \u12289 \u25197 \u34507 \u26371 \u39208 ", address: "Akihabara Station" \},\
+                    \{ time: "19:30", activity: "\uc0\u26202 \u39184 \u65306 Ushigoro \u37504 \u24231 \u24215 ", icon: "\u55358 \u56681 ", category: 'food', cost: 31600, desc: "\u38928 \u32004 \u34399 : AWYTFWX9VE | \u23395 \u31680 \u21280 \u22871 \u39184  (\'a515,800/\u20154 )", address: "Yakiniku Ushigoro Ginza Ten" \},\
+                    \{ time: "21:30", activity: "\uc0\u36774 \u29702 \u20837 \u20303  Check-in", icon: "\u55357 \u57038 \u65039 ", category: 'hotel', cost: 0, desc: "\u9888 \u65039  23:30 \u21069 \u24517 \u38920 \u23436 \u25104 \u65281 ", address: BOOKING_INFO.hotel.address, isWarning: true \}\
+                ]\
+            \},\
+            \{\
+                date: "12/3 (\uc0\u19977 )",\
+                shortDate: "12/03",\
+                city: "\uc0\u26481 \u20140  (\u21407 \u23487 /\u28544 \u35895 /\u20845 \u26412 \u26408 )",\
+                theme: "\uc0\u26178 \u23578 \u12289 \u20449 \u20208 \u33287 \u28526 \u27969 ",\
+                weather: \{ temp: "14\'b0C", condition: "cloudy", summary: "\uc0\u22810 \u38642 \u65292 \u20621 \u26202 \u24494 \u28092 " \},\
+                guide: "<span class='guide-tag tag-funfact'>\uc0\u55357 \u56481  \u26126 \u27835 \u31070 \u23470 </span> \u23563 \u25214 \u24040 \u22823 \u30340 \u28165 \u37202 \u26742 \u29254 \u65292 \u37027 \u26159 \u20840 \u22283 \u37202 \u36896 \u20379 \u22857 \u32102 \u31070 \u26126 \u30340 \u12290 <br><span class='guide-tag tag-food'>\u55357 \u56481  \u21407 \u23487 </span> \u12300 Marion Crepes\u12301 \u26159 \u21487 \u40599 \u39173 \u22987 \u31062 \u65292 \u25512 \u34214 \u33609 \u33683 \u39854 \u22902 \u27833 \u12290 <br><span class='guide-tag tag-important'>\u55357 \u56481  \u20845 \u26412 \u26408 \u29128 \u39166 </span> \u27384 \u22338 \u36890 \u30340 \u29128 \u39166 \u32972 \u26223 \u23601 \u26159 \u26481 \u20140 \u37941 \u22612 \u65292 \u26159 \u26481 \u20140 \u32854 \u35477 \u31680 \u24517 \u25293 \u26223 \u40670 \u12290 ",\
+                events: [\
+                    \{ time: "09:30", activity: "\uc0\u26126 \u27835 \u31070 \u23470 \u65306 \u26862 \u26519 \u28020 ", icon: "\u9961 \u65039 ", category: 'attraction', cost: 500, desc: "JR \u23665 \u25163 \u32218 \u33267 \u21407 \u23487 \u31449 ", address: "Meiji Jingu" \},\
+                    \{ time: "12:00", activity: "\uc0\u21320 \u39184 \u65306 \u31481 \u19979 \u36890 \u21487 \u40599 \u39173 ", icon: "\u55358 \u56670 ", category: 'food', cost: 0, desc: "\u39636 \u39511 \u24180 \u36629 \u20154 \u28526 \u27969 \u25991 \u21270 ", address: "Takeshita Street" \},\
+                    \{ time: "14:00", activity: "\uc0\u34920 \u21443 \u36947 \u65306 \u21517 \u29260 \u24033 \u31150 ", icon: "\u55357 \u57037 \u65039 ", category: 'attraction', cost: 0, desc: "\u34920 \u21443 \u36947  Hills", address: "Omotesando Hills" \},\
+                    \{ time: "17:30", activity: "\uc0\u26202 \u39184 \u65306 Sushi Tokyo Ten \u20845 \u26412 \u26408 ", icon: "\u55356 \u57187 ", category: 'food', cost: 0, desc: "\u20845 \u26412 \u26408 \u24215  | Omakase (\u38656 \u28310 \u26178 )", address: "Sushi Tokyo Ten Roppongi" \},\
+                    \{ time: "19:30", activity: "\uc0\u20845 \u26412 \u26408 \u32854 \u35477 \u29128 \u39166 \u24033 \u31150 ", icon: "\u55356 \u57220 ", category: 'attraction', cost: 0, desc: "Midtown \u29128 \u39166  \u10024  \u10132  \u27384 \u22338 \u36890  (Keyakizaka) \u26481 \u20140 \u37941 \u22612 \u32085 \u26223 ", address: "Roppongi Keyakizaka Dori" \}\
+                ]\
+            \},\
+            \{\
+                date: "12/4 (\uc0\u22235 )",\
+                shortDate: "12/04",\
+                city: "\uc0\u37772 \u20489 /\u27743 \u20043 \u23798 ",\
+                theme: "\uc0\u21476 \u37117 \u33287 \u28248 \u21335 \u28023 \u23736 ",\
+                weather: \{ temp: "12\'b0C", condition: "sunny", summary: "\uc0\u26228 \u26391 \u65292 \u28023 \u37002 \u39080 \u22823 " \},\
+                guide: "<span class='guide-tag tag-funfact'>\uc0\u55357 \u56481  \u37772 \u20489 \u22823 \u20315 </span> \u20184 20\u26085 \u22291 \u21487 \u20197 \u36914 \u20837 \u22823 \u20315 \u30340 \u12300 \u36523 \u39636 \u20839 \u37096 \u12301 \u21443 \u35264 \u12290 <br><span class='guide-tag tag-food'>\u55357 \u56481  \u23567 \u30010 \u36890 </span> \u24517 \u21507 \u12300 \u21563 \u20180 \u39770 \u20028 \u12301 (Shirasu Don)\u65292 \u36889 \u26159 \u37772 \u20489 \u29305 \u29986 \u12290 <br><span class='guide-tag tag-important'>\u55357 \u56481  \u24179 \u20132 \u36947 </span> \u25293 \u29031 \u35531 \u27880 \u24847 \u23433 \u20840 \u65292 \u19981 \u35201 \u31449 \u22312 \u37941 \u36556 \u19978 \u38459 \u25803 \u20132 \u36890 \u12290 ",\
+                events: [\
+                    \{ time: "08:30", activity: "\uc0\u21069 \u24448 \u37772 \u20489 ", icon: "\u55357 \u56963 ", category: 'transport', cost: 1200, desc: "JR \u27243 \u38920 \u36032 \u32218  (\u32004 60\u20998 )", address: "Kamakura Station" \},\
+                    \{ time: "10:00", activity: "\uc0\u37772 \u20489 \u22823 \u20315 \u65306 \u39640 \u24503 \u38498 ", icon: "\u55357 \u56911 ", category: 'attraction', cost: 300, desc: "\u36681 \u20056 \u27743 \u20043 \u38651 \u33267 \u38263 \u35895 \u31449 ", address: "Kotoku-in" \},\
+                    \{ time: "12:30", activity: "\uc0\u21320 \u39184 \u65306 \u21563 \u20180 \u39770 \u20028 ", icon: "\u55357 \u56351 ", category: 'food', cost: 0, desc: "\u37772 \u20489 \u23567 \u30010 \u36890 \u21830 \u24215 \u34903 ", address: "Komachi Dori" \},\
+                    \{ time: "15:00", activity: "\uc0\u37772 \u20489 \u39640 \u26657 \u21069 \u65306 \u28748 \u31811 \u39640 \u25163 ", icon: "\u55357 \u56568 ", category: 'attraction', cost: 0, desc: "\u33879 \u21517 \u24179 \u20132 \u36947 \u25293 \u29031 ", address: "Kamakura-K\u333 k\u333 -Mae Station" \},\
+                    \{ time: "17:30", activity: "\uc0\u27743 \u20043 \u23798 \u65306 \u22805 \u38525 \u26202 \u39184 ", icon: "\u55356 \u57093 ", category: 'food', cost: 0, desc: "\u27493 \u34892 \u36942 \u27211 \u65292 \u27427 \u36062 \u28023 \u26223 ", address: "Enoshima" \},\
+                    \{ time: "20:00", activity: "\uc0\u36820 \u22238 \u31179 \u33865 \u21407 ", icon: "\u55356 \u57320 ", category: 'transport', cost: 1200, desc: "\u28248 \u21335 \u21934 \u36556  / JR", address: BOOKING_INFO.hotel.address \}\
+                ]\
+            \},\
+            \{\
+                date: "12/5 (\uc0\u20116 )",\
+                shortDate: "12/05",\
+                city: "\uc0\u26481 \u20140  (\u19978 \u37326 /\u25104 \u30000 )",\
+                theme: "\uc0\u34269 \u34899 \u33287 \u22291 \u28415 \u27512 \u31243 ",\
+                weather: \{ temp: "13\'b0C", condition: "cloudy", summary: "\uc0\u22810 \u38642 \u65292 \u36969 \u21512 \u23460 \u20839 " \},\
+                guide: "<span class='guide-tag tag-funfact'>\uc0\u55357 \u56481  \u19978 \u37326 \u20844 \u22290 </span> \u26143 \u24052 \u20811 \u19978 \u37326 \u24215 \u38750 \u24120 \u28418 \u20142 \u65292 \u36969 \u21512 \u20241 \u24687 \u12290 <br><span class='guide-tag tag-food'>\u55357 \u56481  \u38463 \u32654 \u27243 \u19969 </span> \u34277 \u22941 \u21644 \u38646 \u39135 \u36890 \u24120 \u27604 \u24066 \u20013 \u24515 \u20415 \u23452 \u65292 \u21487 \u20197 \u27578 \u20729 \u65281 <br><span class='guide-tag tag-important'>\u55357 \u56481  Skyliner</span> \u24314 \u35696 \u25552 \u26089 \u19978 \u32178 \u36023 \u31080 \u65292 \u25475 QR code\u36914 \u31449 \u12290 ",\
+                events: [\
+                    \{ time: "09:30", activity: "\uc0\u36864 \u25151  Check-out", icon: "\u55357 \u56395 ", category: 'hotel', cost: 0, desc: "\u23492 \u25918 \u34892 \u26446 \u65292 \u21069 \u24448 \u19978 \u37326 ", address: BOOKING_INFO.hotel.address, isWarning: true \},\
+                    \{ time: "10:30", activity: "\uc0\u19978 \u37326 \u20844 \u22290 \u65306 \u38290 \u36891 ", icon: "\u55357 \u56380 ", category: 'attraction', cost: 1000, desc: "\u22283 \u31435 \u21338 \u29289 \u39208 \u25110 \u21205 \u29289 \u22290 ", address: "Ueno Park" \},\
+                    \{ time: "13:00", activity: "\uc0\u21320 \u39184 \u65306 \u38463 \u32654 \u27243 \u19969 ", icon: "\u55356 \u57187 ", category: 'food', cost: 0, desc: "\u26368 \u24460 \u25505 \u36023 \u34277 \u22941 \u38646 \u39135 ", address: "Ameyoko Shopping District" \},\
+                    \{ time: "15:30", activity: "\uc0\u21462 \u34892 \u26446 \u21069 \u24448 \u27231 \u22580 ", icon: "\u55357 \u56966 ", category: 'transport', cost: 2500, desc: "Skyliner (\u20140 \u25104 \u19978 \u37326 \u30332 )", address: "Keisei Ueno Station" \},\
+                    \{ time: "16:45", activity: "\uc0\u25104 \u30000  T2 \u36774 \u29702 \u30331 \u27231 ", icon: "\u55357 \u57067 ", category: 'transport', cost: 0, desc: "UO647 (\u36215 \u39131 \u21069 3hr)", address: "Narita Airport Terminal 2" \},\
+                    \{ time: "19:00", activity: "\uc0\u36215 \u39131 \u36820 \u28207 ", icon: "\u55356 \u56813 \u55356 \u56816 ", category: 'transport', cost: 0, desc: "\u26053 \u31243 \u22291 \u28415 \u32080 \u26463 ", address: "" \}\
+                ]\
+            \}\
+        ];\
+\
+        // 2. STATE MANAGEMENT\
+        const dayTabs = document.getElementById('day-tabs');\
+        const itineraryContent = document.getElementById('itinerary-content');\
+        const budgetSummary = document.getElementById('budget-summary');\
+        const bookingDetails = document.getElementById('booking-details');\
+        const homeScreen = document.getElementById('home-screen');\
+        const toggleIcon = document.getElementById('toggle-icon');\
+        let currentActiveDay = null;\
+        let isBookingDetailsOpen = true;\
+\
+        // 3. CORE FUNCTIONS\
+\
+        function enterApp() \{\
+            homeScreen.style.transform = 'translateY(-100%)';\
+            setTimeout(() => \{ \
+                homeScreen.style.display = 'none'; \
+                updateStickyHeaderPosition(); // Recalculate sticky once hero is gone\
+            \}, 600);\
+        \}\
+\
+        // Logic to keep tabs sticky exactly below the header, even when header resizes\
+        function updateStickyHeaderPosition() \{\
+            const headerHeight = document.getElementById('main-header').offsetHeight;\
+            dayTabs.style.top = `$\{headerHeight\}px`;\
+        \}\
+\
+        function toggleBookingDetails() \{\
+            isBookingDetailsOpen = !isBookingDetailsOpen;\
+            if (isBookingDetailsOpen) \{\
+                bookingDetails.classList.remove('collapsed-content');\
+                toggleIcon.classList.remove('rotate-180');\
+            \} else \{\
+                bookingDetails.classList.add('collapsed-content');\
+                toggleIcon.classList.add('rotate-180');\
+            \}\
+            \
+            // Wait for transition to end then update sticky position\
+            setTimeout(updateStickyHeaderPosition, 550);\
+        \}\
+\
+        function updateBudget() \{\
+            let total = 0;\
+            itineraryData.forEach(d => d.events.forEach(e => \{\
+                // \uc0\u20462 \u25913 \u65306 \u21482 \u35336 \u31639  1. \u20132 \u36890 \u36027  (transport) 2. \u24050 \u38928 \u35330 \u30340 \u26202 \u39184  (Ushigoro)\
+                if (e.category === 'transport' || e.activity.includes('Ushigoro')) \{\
+                    total += e.cost;\
+                \}\
+            \}));\
+            \
+            // \uc0\u35373 \u23450 \u32317 \u38928 \u31639 \u33287 \u21295 \u29575 \u20272 \u31639 \
+            const budgetHKD = 12000;\
+            const exchangeRate = 0.052; // \uc0\u38928 \u20272 \u21295 \u29575  (1 JPY \u8776  0.052 HKD)\
+            const estimatedCostHKD = Math.round(total * exchangeRate);\
+            const remainingHKD = budgetHKD - estimatedCostHKD;\
+\
+            document.getElementById('budget-summary').innerHTML = `\
+                <div class="flex flex-col items-end">\
+                    <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">\uc0\u32317 \u38928 \u31639  HK$$\{budgetHKD.toLocaleString()\}</span>\
+                    <span class="text-sm font-bold $\{remainingHKD >= 0 ? 'text-emerald-600' : 'text-red-500'\}">\
+                        \uc0\u39192 \u38989  HK$$\{remainingHKD.toLocaleString()\}\
+                    </span>\
+                    <span class="text-[9px] text-gray-400 mt-0.5">\
+                        (\uc0\u22266 \u23450 \u25903 \u20986  \'a5$\{total.toLocaleString()\} \u8776  HK$$\{estimatedCostHKD.toLocaleString()\})\
+                    </span>\
+                </div>\
+            `;\
+        \}\
+\
+        function renderBookingInfo() \{\
+            bookingDetails.innerHTML = `\
+                <div class="bg-blue-50/80 p-4 rounded-xl border border-blue-100 mb-2">\
+                    <div class="flex items-center text-blue-900 font-bold mb-2">\
+                        <span class="text-xl mr-2">\uc0\u9992 \u65039 </span> \u27231 \u31080 \u36039 \u35338  <span class="ml-2 text-xs bg-blue-200 px-2 py-0.5 rounded text-blue-800">$\{BOOKING_INFO.pnr\}</span>\
+                    </div>\
+                    <div class="text-sm text-blue-800/80 space-y-1 pl-8">\
+                        <p>\uc0\u55357 \u56421  $\{BOOKING_INFO.passengers.join(', ')\}</p>\
+                        <p>\uc0\u55356 \u57234  $\{BOOKING_INFO.baggage.checked\}</p>\
+                    </div>\
+                </div>\
+                <div class="bg-indigo-50/80 p-4 rounded-xl border border-indigo-100">\
+                    <div class="flex items-center text-indigo-900 font-bold mb-2">\
+                        <span class="text-xl mr-2">\uc0\u55356 \u57320 </span> \u20303 \u23487 \u36039 \u35338 \
+                    </div>\
+                    <div class="text-sm text-indigo-800/80 space-y-1 pl-8">\
+                        <p class="font-medium">$\{BOOKING_INFO.hotel.name\}</p>\
+                        <p class="text-xs opacity-75">$\{BOOKING_INFO.hotel.address\}</p>\
+                        <div class="mt-2 flex gap-2">\
+                            <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded font-bold">\uc0\u26368 \u26202  $\{BOOKING_INFO.hotel.checkInLimit\}</span>\
+                            <span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded font-bold">\'a5\uc0\u29694 \u22580 \u20184 \u36027 </span>\
+                        </div>\
+                    </div>\
+                </div>\
+            `;\
+        \}\
+\
+        function renderTabs() \{\
+            dayTabs.innerHTML = '';\
+            itineraryData.forEach((day, idx) => \{\
+                const btn = document.createElement('button');\
+                btn.className = `flex-1 py-4 text-center text-sm font-medium transition-colors border-b-2 outline-none focus:outline-none $\{idx === 0 ? 'border-emerald-500 text-emerald-600 bg-emerald-50/50' : 'border-transparent text-gray-400 hover:text-gray-600'\}`;\
+                btn.innerHTML = `<span class="block text-xs opacity-70">$\{day.date.split(' ')[0]\}</span><span class="block font-bold text-lg">$\{day.date.split('(')[1].replace(')','')\}</span>`;\
+                btn.onclick = () => switchDay(idx);\
+                dayTabs.appendChild(btn);\
+            \});\
+        \}\
+\
+        function getWeatherSvg(condition) \{\
+            if(condition === 'sunny') return `<svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;\
+            if(condition === 'cloudy') return `<svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>`;\
+            return `<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>`;\
+        \}\
+\
+        function switchDay(index) \{\
+            if(currentActiveDay === index) return;\
+            currentActiveDay = index;\
+\
+            // Update Tabs UI\
+            Array.from(dayTabs.children).forEach((btn, idx) => \{\
+                if(idx === index) \{\
+                    btn.className = 'flex-1 py-4 text-center transition-all border-b-4 border-emerald-500 text-emerald-700 bg-emerald-50';\
+                \} else \{\
+                    btn.className = 'flex-1 py-4 text-center transition-all border-b-4 border-transparent text-gray-400 hover:bg-gray-50';\
+                \}\
+            \});\
+\
+            const day = itineraryData[index];\
+            \
+            // Render Timeline\
+            let content = `\
+                <div class="mb-6">\
+                    <p class="text-gray-400 text-sm">$\{day.city\}</p>\
+                </div>\
+\
+                <!-- Weather Card -->\
+                <div class="ios-weather-card mb-8 flex items-center justify-between">\
+                    <div>\
+                        <div class="text-3xl font-light">$\{day.weather.temp\}</div>\
+                        <div class="text-sm opacity-75 font-medium tracking-wide">$\{day.weather.summary\}</div>\
+                    </div>\
+                    <div>$\{getWeatherSvg(day.weather.condition)\}</div>\
+                </div>\
+\
+                <!-- Timeline -->\
+                <div class="relative pl-4 space-y-8 before:absolute before:left-[27px] before:top-2 before:bottom-4 before:w-[2px] before:bg-gray-100">\
+            `;\
+\
+            day.events.forEach(ev => \{\
+                const isWarning = ev.isWarning ? 'bg-red-50 border-red-200' : 'bg-white border-gray-100';\
+                \
+                // \uc0\u21028 \u26039 \u26159 \u21542 \u39023 \u31034 \u20729 \u26684 \u27161 \u31844 \
+                const showCostBadge = ev.cost > 0 || ev.category === 'attraction' || ev.category === 'hotel';\
+\
+                content += `\
+                    <div class="relative z-10">\
+                        <!-- Icon Bubble -->\
+                        <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-white border-4 border-gray-50 shadow-sm flex items-center justify-center text-lg z-20">\
+                            $\{ev.icon\}\
+                        </div>\
+                        \
+                        <!-- Content -->\
+                        <div class="ml-14">\
+                            <div class="$\{isWarning\} border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">\
+                                <h3 class="font-bold text-gray-800 text-lg mb-3">$\{ev.activity\}</h3>\
+                                \
+                                <ul class="space-y-2 text-sm text-gray-600">\
+                                    <li class="flex items-start">\
+                                        <span class="mr-2 text-lg">\uc0\u9200 </span>\
+                                        <span class="mt-0.5 font-semibold $\{ev.isWarning ? 'text-red-600' : ''\}">$\{ev.time\}</span>\
+                                    </li>\
+                                    $\{ev.address ? `\
+                                    <li class="flex items-start">\
+                                        <span class="mr-2 text-lg">\uc0\u55357 \u56525 </span>\
+                                        <span class="mt-0.5">$\{ev.address\}</span>\
+                                    </li>\
+                                    ` : ''\}\
+                                    <li class="flex items-start">\
+                                        <span class="mr-2 text-lg">\uc0\u55357 \u56541 </span>\
+                                        <span class="mt-0.5">$\{ev.desc\}</span>\
+                                    </li>\
+                                </ul>\
+                                \
+                                <div class="flex justify-between items-center mt-4 pt-3 border-t border-dashed border-gray-100">\
+                                    $\{showCostBadge ? `\
+                                    <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">\
+                                        \uc0\u55357 \u56496  $\{ev.cost > 0 ? '\'a5' + ev.cost.toLocaleString() : 'Free'\}\
+                                    </span>` : '<span></span>'\}\
+                                    \
+                                    $\{ev.address ? `\
+                                        <a href="https://www.google.com/maps/search/?api=1&query=$\{encodeURIComponent(ev.address)\}" target="_blank" class="text-xs flex items-center text-blue-500 hover:text-blue-700 font-bold transition-colors bg-blue-50 px-3 py-1.5 rounded-full">\
+                                            \uc0\u23566 \u33322  GO \u55357 \u56826 \u65039 \
+                                        </a>\
+                                    ` : ''\}\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                `;\
+            \});\
+\
+            content += `</div>`; // End timeline\
+\
+            // Guide Section\
+            content += `\
+                <div class="mt-10 p-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100/50">\
+                    <div class="flex items-center mb-3">\
+                        <span class="text-xl mr-2">\uc0\u55358 \u56598 </span>\
+                        <h3 class="font-bold text-indigo-900">AI \uc0\u23566 \u36938 \u23567 \u36028 \u22763 </h3>\
+                    </div>\
+                    <div class="text-sm text-indigo-900/80 leading-relaxed space-y-2">\
+                        $\{day.guide\}\
+                    </div>\
+                </div>\
+            `;\
+\
+            itineraryContent.innerHTML = content;\
+        \}\
+\
+        // 4. INITIALIZATION\
+        window.onload = function() \{\
+            updateBudget();\
+            renderBookingInfo();\
+            renderTabs();\
+            switchDay(0);\
+            updateStickyHeaderPosition(); // Initial calculation\
+            \
+            // Handle window resize for sticky header\
+            window.addEventListener('resize', updateStickyHeaderPosition);\
+        \};\
+    </script>\
+</body>\
+</html>}
