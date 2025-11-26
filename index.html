@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本生日之旅</title>
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2060/2060250.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Confetti JS (彩帶特效庫) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts Import - 載入 Bodoni Moda (時尚雜誌風高級字體) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Zen+Old+Mincho:wght@400;700;900&family=Noto+Serif+TC:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #F7F7F7;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 專門給英文/數字用的高級字體 - Bodoni Moda */
+        .font-en {
+            font-family: 'Bodoni Moda', serif !important;
+            letter-spacing: 0.02em; 
+        }
+
+        /* 專門給中文用的高級字體 - Zen Old Mincho */
+        .font-jp {
+            font-family: 'Zen Old Mincho', 'Noto Serif TC', serif !important;
+        }
+
+        /* Hide Scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* App Container */
+        .app-container {
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative; 
+            min-height: 100vh;
+            background-color: #ffffff;
+        }
+
+        /* Home Screen Animation */
+        #home-screen {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Text Shadow for Hero */
+        .text-shadow-hero {
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Tag Styles */
+        .guide-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+        }
+        .tag-food { background-color: #FFF7ED; color: #C2410C; border: 1px solid #FFEDD5; }
+        .tag-important { background-color: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
+        .tag-funfact { background-color: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+
+        /* Weather Card */
+        .ios-weather-card {
+            background: linear-gradient(135deg, #374151, #111827);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Accordion Transition */
+        #booking-details {
+            transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s;
+            overflow: hidden;
+            opacity: 1;
+            max-height: 1000px; /* Arbitrary large height */
+        }
+        .collapsed-content {
+            max-height: 0 !important;
+            opacity: 0;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        /* Sticky Nav Adjustment */
+        #day-tabs {
+            transition: top 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center min-h-screen md:py-8 bg-gray-100">
+
+    <!-- Mobile-First Container -->
+    <div class="w-full max-w-md app-container md:rounded-[2rem]">
+        
+        <!-- ============================================= -->
+        <!-- HOME SCREEN OVERLAY -->
+        <!-- ============================================= -->
+        <div id="home-screen" 
+             onclick="enterApp()" 
+             class="fixed md:absolute inset-0 z-50 bg-cover bg-center flex flex-col justify-end p-8 cursor-pointer"
+             style="background-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2000&auto=format&fit=crop');">
+            
+            <div class="mb-12 text-center text-white">
+                <!-- 徽章 -->
+                <div class="inline-block px-4 py-1.5 mb-5 border border-white/40 rounded-sm text-[10px] tracking-[0.2em] uppercase backdrop-blur-md">
+                    <span class="font-bold font-en text-white">🇯🇵 TOKYO 2025 🗼</span>
+                </div>
+                
+                <!-- 標題：英文/數字用 Bodoni Moda，中文用 Zen Old Mincho -->
+                <h1 class="text-6xl font-bold mb-3 text-shadow-hero leading-tight tracking-wider">
+                    <span class="font-en text-6xl italic">12</span><span class="font-jp">月</span><br>
+                    <span class="font-jp">生日之旅</span>
+                </h1>
+                
+                <!-- 副標題 -->
+                <p class="text-xl font-en italic font-medium tracking-[0.05em] opacity-90 text-shadow-hero mt-3 border-t border-white/30 pt-3 inline-block">
+                    Happy Birthday Trip
+                </p>
+            </div>
+            
+            <div class="text-center pb-8 animate-pulse text-white/70">
+                <p class="text-[10px] font-en font-bold tracking-[0.3em] uppercase">
+                    Tap to Start
+                </p>
+            </div>
+        </div>
+        
+        <!-- ============================================= -->
+        <!-- MAIN APP INTERFACE -->
+        <!-- ============================================= -->
+
+        <!-- Sticky Header -->
+        <header id="main-header" class="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-30 transition-all duration-300">
+            <div class="px-5 py-4">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl font-black text-gray-900 tracking-tight">🇯🇵 東京行</h1>
+                        <p class="text-xs text-gray-500 font-medium mt-0.5 font-en">2025.12.02 - 12.05</p>
+                    </div>
+                    <div id="budget-summary" class="text-right">
+                        <!-- Budget injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toggle Bar -->
+            <button onclick="toggleBookingDetails()" class="w-full px-5 py-3 bg-gray-50 flex justify-between items-center border-t border-b border-gray-100 active:bg-gray-100 transition-colors group">
+                <span class="font-semibold text-gray-600 text-xs tracking-wide uppercase flex items-center">
+                    <span class="mr-2 text-base">🎫</span> 預訂詳情 & 重要資訊
+                </span>
+                <span id="toggle-icon" class="text-gray-400 transform transition-transform duration-300 group-hover:text-gray-600">▼</span>
+            </button>
+        </header>
+        
+        <!-- Collapsible Info -->
+        <div id="booking-details" class="px-5 py-4 bg-white space-y-3 shadow-inner bg-gray-50/50">
+            <!-- Booking details injected here -->
+        </div>
+
+        <!-- Sticky Day Tabs -->
+        <nav id="day-tabs" class="flex justify-around bg-white shadow-sm sticky z-20 border-b border-gray-100">
+            <!-- Tabs injected here -->
+        </nav>
+
+        <!-- Main Content Scroll Area -->
+        <main id="itinerary-content" class="p-5 pb-20 space-y-6 min-h-[60vh] bg-white">
+            <!-- Timeline injected here -->
+        </main>
+        
+        <!-- Footer -->
+        <footer class="py-6 text-center border-t border-gray-100 bg-gray-50">
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-en">Designed with ❤️ for You</p>
+        </footer>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- JAVASCRIPT LOGIC -->
+    <!-- ============================================= -->
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+
+        // 1. DATA CONFIGURATION (Pre-baked)
+        const BOOKING_INFO = {
+            orderId: "1359041237819550",
+            pnr: "E58BJS",
+            passengers: ["CHIU HIU WING", "LAM CHIU TING"],
+            baggage: {
+                checked: "每人1件 (20 kg)",
+                carryOn: "1件隨身 (40x25x20) + 無額外手提",
+                checkInTime: "起飛前 3 小時"
+            },
+            hotel: {
+                name: "Super Hotel Premier Akihabara",
+                address: "2 Chome-25-8 Kanda Sudacho, Chiyoda City, Tokyo 101-0041",
+                checkInLimit: "23:30 (嚴格執行)",
+                payment: "HK$46.00 + 住宿稅 (前台支付)"
+            }
+        };
+
+        const itineraryData = [
+            {
+                date: "12/2 (二)",
+                shortDate: "12/02",
+                city: "東京 (秋葉原/淺草)",
+                theme: "抵達與文化洗禮",
+                weather: { temp: "13°C", condition: "sunny", summary: "晴朗乾燥，適合走路" },
+                guide: "<span class='guide-tag tag-funfact'>💡 淺草寺</span> 記得在雷門求籤，如果是「凶」籤，請把它綁在架子上化解厄運。<br><span class='guide-tag tag-food'>💡 仲見世</span> 必吃現炸的「吉備糰子」和人形燒，剛出爐的最好吃！<br><span class='guide-tag tag-funfact'>💡 秋葉原</span> 如果去扭蛋會館，記得準備大量100日圓硬幣，這裡被稱為扭蛋聖地。",
+                events: [
+                    { time: "06:55", activity: "抵達成田 T2 (UO854)", icon: "🛬", category: 'transport', cost: 0, desc: "領取行李，入境審查", address: "Narita Airport Terminal 2" },
+                    { time: "08:30", activity: "前往酒店寄放行李", icon: "🧳", category: 'transport', cost: 2500, desc: "Skyliner 至日暮里轉 JR 至秋葉原", address: BOOKING_INFO.hotel.address },
+                    { time: "10:30", activity: "淺草寺：雷門參拜", icon: "🏮", category: 'attraction', cost: 0, desc: "搭乘筑波快線/地鐵前往", address: "Senso-ji" },
+                    { time: "12:30", activity: "仲見世通：午餐與小吃", icon: "🍡", category: 'food', cost: 0, desc: "人形燒、炸肉餅", address: "Nakamise-dori Street" },
+                    { time: "15:00", activity: "秋葉原：動漫聖地巡禮", icon: "🎮", category: 'attraction', cost: 0, desc: "Radio會館、扭蛋會館", address: "Akihabara Station" },
+                    { time: "19:30", activity: "晚餐：Ushigoro 銀座店", icon: "🥩", category: 'food', cost: 31600, desc: "預約號: AWYTFWX9VE | 季節匠套餐 (¥15,800/人)", address: "Yakiniku Ushigoro Ginza Ten" },
+                    { time: "21:30", activity: "辦理入住 Check-in", icon: "🛎️", category: 'hotel', cost: 0, desc: "⚠️ 23:30 前必須完成！", address: BOOKING_INFO.hotel.address, isWarning: true }
+                ]
+            },
+            {
+                date: "12/3 (三)",
+                shortDate: "12/03",
+                city: "東京 (原宿/澀谷/六本木)",
+                theme: "時尚、信仰與潮流",
+                weather: { temp: "14°C", condition: "cloudy", summary: "多雲，傍晚微涼" },
+                guide: "<span class='guide-tag tag-funfact'>💡 明治神宮</span> 尋找巨大的清酒桶牆，那是全國酒造供奉給神明的。<br><span class='guide-tag tag-food'>💡 原宿</span> 「Marion Crepes」是可麗餅始祖，推薦草莓鮮奶油。<br><span class='guide-tag tag-important'>💡 六本木燈飾</span> 櫸坂通的燈飾背景就是東京鐵塔，是東京聖誕節必拍景點。",
+                events: [
+                    { time: "09:30", activity: "明治神宮：森林浴", icon: "⛩️", category: 'attraction', cost: 500, desc: "JR 山手線至原宿站", address: "Meiji Jingu" },
+                    { time: "12:00", activity: "午餐：竹下通可麗餅", icon: "🥞", category: 'food', cost: 0, desc: "體驗年輕人潮流文化", address: "Takeshita Street" },
+                    { time: "14:00", activity: "表參道：名牌巡禮", icon: "🛍️", category: 'attraction', cost: 0, desc: "表參道 Hills", address: "Omotesando Hills" },
+                    { time: "17:30", activity: "晚餐：Sushi Tokyo Ten 六本木", icon: "🍣", category: 'food', cost: 0, desc: "六本木店 | Omakase (需準時)", address: "Sushi Tokyo Ten Roppongi" },
+                    { time: "19:30", activity: "六本木聖誕燈飾巡禮", icon: "🎄", category: 'attraction', cost: 0, desc: "Midtown 燈飾 ✨ ➔ 櫸坂通 (Keyakizaka) 東京鐵塔絕景", address: "Roppongi Keyakizaka Dori" }
+                ]
+            },
+            {
+                date: "12/4 (四)",
+                shortDate: "12/04",
+                city: "鎌倉/江之島",
+                theme: "古都與湘南海岸",
+                weather: { temp: "12°C", condition: "sunny", summary: "晴朗，海邊風大" },
+                guide: "<span class='guide-tag tag-funfact'>💡 鎌倉大佛</span> 付20日圓可以進入大佛的「身體內部」參觀。<br><span class='guide-tag tag-food'>💡 小町通</span> 必吃「吻仔魚丼」(Shirasu Don)，這是鎌倉特產。<br><span class='guide-tag tag-important'>💡 平交道</span> 拍照請注意安全，不要站在鐵軌上阻擋交通。",
+                events: [
+                    { time: "08:30", activity: "前往鎌倉", icon: "🚃", category: 'transport', cost: 1200, desc: "JR 橫須賀線 (約60分)", address: "Kamakura Station" },
+                    { time: "10:00", activity: "鎌倉大佛：高德院", icon: "🙏", category: 'attraction', cost: 300, desc: "轉乘江之電至長谷站", address: "Kotoku-in" },
+                    { time: "12:30", activity: "午餐：吻仔魚丼", icon: "🐟", category: 'food', cost: 0, desc: "鎌倉小町通商店街", address: "Komachi Dori" },
+                    { time: "15:00", activity: "鎌倉高校前：灌籃高手", icon: "📸", category: 'attraction', cost: 0, desc: "著名平交道拍照", address: "Kamakura-Kōkō-Mae Station" },
+                    { time: "17:30", activity: "江之島：夕陽晚餐", icon: "🌅", category: 'food', cost: 0, desc: "步行過橋，欣賞海景", address: "Enoshima" },
+                    { time: "20:00", activity: "返回秋葉原", icon: "🏨", category: 'transport', cost: 1200, desc: "湘南單軌 / JR", address: BOOKING_INFO.hotel.address }
+                ]
+            },
+            {
+                date: "12/5 (五)",
+                shortDate: "12/05",
+                city: "東京 (上野/成田)",
+                theme: "藝術與圓滿歸程",
+                weather: { temp: "13°C", condition: "cloudy", summary: "多雲，適合室內" },
+                guide: "<span class='guide-tag tag-funfact'>💡 上野公園</span> 星巴克上野店非常漂亮，適合休息。<br><span class='guide-tag tag-food'>💡 阿美橫丁</span> 藥妝和零食通常比市中心便宜，可以殺價！<br><span class='guide-tag tag-important'>💡 Skyliner</span> 建議提早上網買票，掃QR code進站。",
+                events: [
+                    { time: "09:30", activity: "退房 Check-out", icon: "👋", category: 'hotel', cost: 0, desc: "寄放行李，前往上野", address: BOOKING_INFO.hotel.address, isWarning: true },
+                    { time: "10:30", activity: "上野公園：閒逛", icon: "🐼", category: 'attraction', cost: 1000, desc: "國立博物館或動物園", address: "Ueno Park" },
+                    { time: "13:00", activity: "午餐：阿美橫丁", icon: "🍣", category: 'food', cost: 0, desc: "最後採買藥妝零食", address: "Ameyoko Shopping District" },
+                    { time: "15:30", activity: "取行李前往機場", icon: "🚆", category: 'transport', cost: 2500, desc: "Skyliner (京成上野發)", address: "Keisei Ueno Station" },
+                    { time: "16:45", activity: "成田 T2 辦理登機", icon: "🛫", category: 'transport', cost: 0, desc: "UO647 (起飛前3hr)", address: "Narita Airport Terminal 2" },
+                    { time: "19:00", activity: "起飛返港", icon: "🇭🇰", category: 'transport', cost: 0, desc: "旅程圓滿結束", address: "" }
+                ]
+            }
+        ];
+
+        // 2. STATE MANAGEMENT
+        const dayTabs = document.getElementById('day-tabs');
+        const itineraryContent = document.getElementById('itinerary-content');
+        const budgetSummary = document.getElementById('budget-summary');
+        const bookingDetails = document.getElementById('booking-details');
+        const homeScreen = document.getElementById('home-screen');
+        const toggleIcon = document.getElementById('toggle-icon');
+        let currentActiveDay = null;
+        let isBookingDetailsOpen = true;
+
+        // 3. CORE FUNCTIONS
+
+        function enterApp() {
+            // 播放彩帶特效 - 從上方飄落
+            // 設定動畫持續時間
+            var duration = 2.5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            var randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                
+                // 隨機從上方產生彩帶
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#FFC0CB', '#FFD700', '#FFFFFF', '#FF69B4'], // 粉、金、白
+                    gravity: 1.2,
+                    scalar: 1.2
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#87CEEB', '#E0FFFF', '#FFFFFF'], // 藍、白
+                    gravity: 1.2,
+                    scalar: 1.2
+                }));
+            }, 250);
+
+            // 稍微延遲轉場，讓使用者能看到彩帶開始飄
+            setTimeout(() => {
+                homeScreen.style.transform = 'translateY(-100%)';
+                setTimeout(() => { 
+                    homeScreen.style.display = 'none'; 
+                    updateStickyHeaderPosition(); // Recalculate sticky once hero is gone
+                }, 600);
+            }, 200);
+        }
+
+        // Logic to keep tabs sticky exactly below the header, even when header resizes
+        function updateStickyHeaderPosition() {
+            const headerHeight = document.getElementById('main-header').offsetHeight;
+            dayTabs.style.top = `${headerHeight}px`;
+        }
+
+        function toggleBookingDetails() {
+            isBookingDetailsOpen = !isBookingDetailsOpen;
+            if (isBookingDetailsOpen) {
+                bookingDetails.classList.remove('collapsed-content');
+                toggleIcon.classList.remove('rotate-180');
+            } else {
+                bookingDetails.classList.add('collapsed-content');
+                toggleIcon.classList.add('rotate-180');
+            }
+            
+            // Wait for transition to end then update sticky position
+            setTimeout(updateStickyHeaderPosition, 550);
+        }
+
+        function updateBudget() {
+            let total = 0;
+            itineraryData.forEach(d => d.events.forEach(e => {
+                // 修改：只計算 1. 交通費 (transport) 2. 已預訂的晚餐 (Ushigoro)
+                if (e.category === 'transport' || e.activity.includes('Ushigoro')) {
+                    total += e.cost;
+                }
+            }));
+            
+            // 設定總預算與匯率估算
+            const budgetHKD = 12000;
+            const exchangeRate = 0.052; // 預估匯率 (1 JPY ≈ 0.052 HKD)
+            const estimatedCostHKD = Math.round(total * exchangeRate);
+            const remainingHKD = budgetHKD - estimatedCostHKD;
+
+            document.getElementById('budget-summary').innerHTML = `
+                <div class="flex flex-col items-end">
+                    <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider font-en">BUDGET HK$${budgetHKD.toLocaleString()}</span>
+                    <span class="text-sm font-bold ${remainingHKD >= 0 ? 'text-emerald-600' : 'text-red-500'} font-en">
+                        BALANCE HK$${remainingHKD.toLocaleString()}
+                    </span>
+                    <span class="text-[9px] text-gray-400 mt-0.5 font-en">
+                        (EXPENSES ¥${total.toLocaleString()})
+                    </span>
+                </div>
+            `;
+        }
+
+        function renderBookingInfo() {
+            bookingDetails.innerHTML = `
+                <div class="bg-blue-50/80 p-4 rounded-xl border border-blue-100 mb-2">
+                    <div class="flex items-center text-blue-900 font-bold mb-2">
+                        <span class="text-xl mr-2">✈️</span> 機票資訊 <span class="ml-2 text-xs bg-blue-200 px-2 py-0.5 rounded text-blue-800 font-en">${BOOKING_INFO.pnr}</span>
+                    </div>
+                    <div class="text-sm text-blue-800/80 space-y-1 pl-8">
+                        <p>👥 <span class="font-en">${BOOKING_INFO.passengers.join(', ')}</span></p>
+                        <p>🎒 ${BOOKING_INFO.baggage.checked}</p>
+                    </div>
+                </div>
+                <div class="bg-indigo-50/80 p-4 rounded-xl border border-indigo-100">
+                    <div class="flex items-center text-indigo-900 font-bold mb-2">
+                        <span class="text-xl mr-2">🏨</span> 住宿資訊
+                    </div>
+                    <div class="text-sm text-indigo-800/80 space-y-1 pl-8">
+                        <p class="font-medium font-en">${BOOKING_INFO.hotel.name}</p>
+                        <p class="text-xs opacity-75 font-en">${BOOKING_INFO.hotel.address}</p>
+                        <div class="mt-2 flex gap-2">
+                            <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded font-bold">最晚 ${BOOKING_INFO.hotel.checkInLimit}</span>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded font-bold">¥現場付費</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTabs() {
+            dayTabs.innerHTML = '';
+            itineraryData.forEach((day, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `flex-1 py-4 text-center text-sm font-medium transition-colors border-b-2 outline-none focus:outline-none ${idx === 0 ? 'border-emerald-500 text-emerald-600 bg-emerald-50/50' : 'border-transparent text-gray-400 hover:text-gray-600'}`;
+                // 分離日期與中文星期，讓日期用 font-en
+                btn.innerHTML = `<span class="block text-xs opacity-70 font-en">${day.shortDate}</span><span class="block font-bold text-lg">${day.date.split('(')[1].replace(')','')}</span>`;
+                btn.onclick = () => switchDay(idx);
+                dayTabs.appendChild(btn);
+            });
+        }
+
+        function getWeatherSvg(condition) {
+            if(condition === 'sunny') return `<svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;
+            if(condition === 'cloudy') return `<svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>`;
+            return `<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>`;
+        }
+
+        function switchDay(index) {
+            if(currentActiveDay === index) return;
+            currentActiveDay = index;
+
+            // Update Tabs UI
+            Array.from(dayTabs.children).forEach((btn, idx) => {
+                if(idx === index) {
+                    btn.className = 'flex-1 py-4 text-center transition-all border-b-4 border-emerald-500 text-emerald-700 bg-emerald-50';
+                } else {
+                    btn.className = 'flex-1 py-4 text-center transition-all border-b-4 border-transparent text-gray-400 hover:bg-gray-50';
+                }
+            });
+
+            const day = itineraryData[index];
+            
+            // Render Timeline
+            let content = `
+                <div class="mb-6">
+                    <p class="text-gray-400 text-sm font-jp">${day.city}</p>
+                </div>
+
+                <!-- Weather Card -->
+                <div class="ios-weather-card mb-8 flex items-center justify-between">
+                    <div>
+                        <div class="text-3xl font-light font-en">${day.weather.temp}</div>
+                        <div class="text-sm opacity-75 font-medium tracking-wide font-jp">${day.weather.summary}</div>
+                    </div>
+                    <div>${getWeatherSvg(day.weather.condition)}</div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="relative pl-4 space-y-8 before:absolute before:left-[27px] before:top-2 before:bottom-4 before:w-[2px] before:bg-gray-100">
+            `;
+
+            day.events.forEach(ev => {
+                const isWarning = ev.isWarning ? 'bg-red-50 border-red-200' : 'bg-white border-gray-100';
+                
+                // 判斷是否顯示價格標籤
+                const showCostBadge = ev.cost > 0 || ev.category === 'attraction' || ev.category === 'hotel';
+
+                content += `
+                    <div class="relative z-10">
+                        <!-- Icon Bubble -->
+                        <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-white border-4 border-gray-50 shadow-sm flex items-center justify-center text-lg z-20">
+                            ${ev.icon}
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="ml-14">
+                            <div class="${isWarning} border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <h3 class="font-bold text-gray-800 text-lg mb-3 font-jp">${ev.activity}</h3>
+                                
+                                <ul class="space-y-2 text-sm text-gray-600">
+                                    <li class="flex items-start">
+                                        <span class="mr-2 text-lg">⏰</span>
+                                        <span class="mt-0.5 font-semibold font-en ${ev.isWarning ? 'text-red-600' : ''}">${ev.time}</span>
+                                    </li>
+                                    ${ev.address ? `
+                                    <li class="flex items-start">
+                                        <span class="mr-2 text-lg">📍</span>
+                                        <span class="mt-0.5 font-en">${ev.address}</span>
+                                    </li>
+                                    ` : ''}
+                                    <li class="flex items-start">
+                                        <span class="mr-2 text-lg">📝</span>
+                                        <span class="mt-0.5 font-jp">${ev.desc}</span>
+                                    </li>
+                                </ul>
+                                
+                                <div class="flex justify-between items-center mt-4 pt-3 border-t border-dashed border-gray-100">
+                                    ${showCostBadge ? `
+                                    <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100 font-en">
+                                        💰 ${ev.cost > 0 ? '¥' + ev.cost.toLocaleString() : 'Free'}
+                                    </span>` : '<span></span>'}
+                                    
+                                    ${ev.address ? `
+                                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.address)}" target="_blank" class="text-xs flex items-center text-blue-500 hover:text-blue-700 font-bold transition-colors bg-blue-50 px-3 py-1.5 rounded-full font-jp">
+                                            導航 GO 🗺️
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            content += `</div>`; // End timeline
+
+            // Guide Section
+            content += `
+                <div class="mt-10 p-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100/50">
+                    <div class="flex items-center mb-3">
+                        <span class="text-xl mr-2">🤖</span>
+                        <h3 class="font-bold text-indigo-900 font-jp">AI 導遊小貼士</h3>
+                    </div>
+                    <div class="text-sm text-indigo-900/80 leading-relaxed space-y-2 font-jp">
+                        ${day.guide}
+                    </div>
+                </div>
+            `;
+
+            itineraryContent.innerHTML = content;
+        }
+
+        // 4. INITIALIZATION
+        window.onload = function() {
+            updateBudget();
+            renderBookingInfo();
+            renderTabs();
+            switchDay(0);
+            updateStickyHeaderPosition(); // Initial calculation
+            
+            // Handle window resize for sticky header
+            window.addEventListener('resize', updateStickyHeaderPosition);
+        };
+    </script>
+</body>
+</html>
